@@ -11,7 +11,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import com.tacsio.corretora.api.CorretoraModel;
+import com.tacsio.corretora.apimodel.CriarCorretoraModel;
 import com.tacsio.service.ReceitaResponseModel;
 import com.tacsio.service.ReceitaService;
 
@@ -27,8 +27,8 @@ public class CorretoraController {
 
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
-	public Corretora novaCorretora(CorretoraModel request) {
-		Corretora novaCorretora = request.toEntity();
+	public Corretora novaCorretora(CriarCorretoraModel model) {
+		Corretora novaCorretora = model.toEntity();
 		novaCorretora.persist();
 
 		return novaCorretora;
