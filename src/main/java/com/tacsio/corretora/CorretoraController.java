@@ -4,30 +4,31 @@ import java.util.Optional;
 
 import javax.inject.Inject;
 import javax.transaction.Transactional;
+import javax.validation.Valid;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
-import com.tacsio.corretora.apimodel.CriarCorretoraModel;
 import com.tacsio.service.ReceitaResponseModel;
 import com.tacsio.service.ReceitaService;
 
 import org.eclipse.microprofile.rest.client.inject.RestClient;
+import org.hibernate.validator.constraints.br.CNPJ;
 
-@Path("/corretora")
-@Transactional
+@Path("/corretoras")
 public class CorretoraController {
 
 	@Inject
 	@RestClient
 	private ReceitaService receitaService;
 
+	@Transactional
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
-	public Corretora novaCorretora(CriarCorretoraModel model) {
+	public Corretora novaCorretora(@Valid CriarCorretoraDTO model) {
 		Corretora novaCorretora = model.toEntity();
 		novaCorretora.persist();
 
@@ -35,13 +36,12 @@ public class CorretoraController {
 	}
 
 	@GET
-	@Path("/{cnpj}")
-	public String consultaRazaoSocial(@PathParam("cnpj") String cnpj) {
+	public String consultaRazaoSocial(@QueryParam("cnpj") @CNPJ String cnpj) {
 
 		String cleanedCnpj = cleanCnpj(cnpj);
 		Optional<ReceitaResponseModel> empresa = receitaService.getByCnpj(cleanedCnpj);
-
-		if (empresa.isPresent()) {
+		
+		if (empresa.isPresent() && empresa.get().getNome() != null) {
 			return empresa.get().getNome();
 		} else {
 			return "not found";
@@ -49,7 +49,7 @@ public class CorretoraController {
 	}
 
 	private String cleanCnpj(String cnpj) {
-		return cnpj.trim().replace("/", "").replace(".", "");
+		return cnpj.trim().replace("/", "").replace(".", "").replace("", "");
 	}
 
 }
