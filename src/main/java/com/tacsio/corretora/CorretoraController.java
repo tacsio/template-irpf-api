@@ -12,8 +12,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
-import com.tacsio.service.ReceitaResponseModel;
-import com.tacsio.service.ReceitaService;
+import com.tacsio.services.ReceitaResponseModel;
+import com.tacsio.services.ReceitaService;
 
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.hibernate.validator.constraints.br.CNPJ;
