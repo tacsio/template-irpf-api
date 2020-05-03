@@ -28,14 +28,18 @@ public class NovaNegociacaoDTO {
 	@Positive
 	private final Long idCustodiante;
 
+	@Positive
+	private final Long idUsuario;
+
 	public NovaNegociacaoDTO(@Positive Integer ano, @NotNull Tipo tipo, @Positive Integer quantidade,
-			@Positive Long total, @Positive Long idAtivo, @Positive Long idCustodiante) {
+			@Positive Long total, @Positive Long idAtivo, @Positive Long idCustodiante, @Positive Long idUsuario) {
 		this.ano = ano;
 		this.tipo = tipo;
 		this.quantidade = quantidade;
 		this.total = total;
 		this.idAtivo = idAtivo;
 		this.idCustodiante = idCustodiante;
+		this.idUsuario = idUsuario;
 	}
 
 	public Negociacao toEntity(EntityManager manager) {
@@ -47,7 +51,7 @@ public class NovaNegociacaoDTO {
 		Preconditions.checkArgument(custodiante != null,
 				"Custodiante não encontrado. A corretora custodiante deve existir antes de adiciona-lo a uma negociação.");
 
-		return new Negociacao(ano, tipo, quantidade, total, ativo, custodiante);
+		return new Negociacao(ano, tipo, quantidade, total, ativo, custodiante, null); //TODO: adicionar Usuario
 	}
 
 }

@@ -1,6 +1,4 @@
-package com.tacsio.services;
-
-import java.util.Optional;
+package com.tacsio.services.receita;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -14,5 +12,5 @@ public interface ReceitaService {
 
 	@GET
 	@Path("/{cnpj}")
-	Optional<ReceitaResponseModel> getByCnpj(@PathParam("cnpj") String cnpj);
+	ReceitaResponseModel getByCnpj(@PathParam("cnpj") String cnpj);
 }
